@@ -1,58 +1,31 @@
-<!DOCTYPE HTML>
-<!--
-	Epilogue by TEMPLATED
-	templated.co @templatedco
-	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
---><html><head><title>Epilogue by TEMPLATED</title><meta charset="utf-8"><meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="assets/css/main.css"></head><body>
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
-		<!-- Header -->
-			<header id="header" class="alt"><div class="inner">
-					<h1>NW Vitality Women’s Association</h1>
-					<p></p>
-				</div>
-			</header><!-- Wrapper --><div id="wrapper">
+export default function BookingApp() {
+  const [slots, setSlots] = useState([
+    { id: 1, time: "9:00 AM - 10:00 AM", booked: false },
+    { id: 2, time: "10:00 AM - 11:00 AM", booked: false },
+    { id: 3, time: "11:00 AM - 12:00 PM", booked: false },
+  ]);
 
-				<!-- Banner -->
-					<section id="intro" class="main"><span class="icon fa-diamond major"></span>
-						<h2>Mission Statement</h2>
-						<p>Our mission is to empower women of all ages to achieve their best physical and mental health, becoming their best selves. We are dedicated to promoting fitness and wellness through a diverse range of activities and events that bring women together. By fostering a supportive community, we aim to inspire and enable women to reach their full potential, enhancing their overall well-being and quality of life. Together, we strive to create a healthier, happier, and more connected community of women in the Northwest.
-</p>
-						<ul class="actions"><li><a href="#" class="button big">Learn More</a></li>
-						</ul></section><!-- Items --><section class="main items"><article class="item"><header><a href="#"><img src="images/pic01.jpg" alt="" width="800" height="400"></a>
-								<h3>About US</h3>
-							</header><p>The history of the org and who we are </p>
-							<ul class="actions"><li><a href="#" class="button">More</a></li>
-							</ul></article><article class="item"><header><a href="#"><img src="images/pic02.jpg" alt="" width="800" height="400"></a>
-								<h3>Our Mission</h3>
-							</header><p>Pursue of happiness and health</p>
-							<ul class="actions"><li><a href="#" class="button">More</a></li>
-							</ul></article><article class="item"><header><a href="#"><img src="images/pic03.jpg" alt="" width="800" height="400"></a>
-								<h3>Activities</h3>
-							</header><p>Join us for various activities</p>
-							<ul class="actions"><li><a href="#" class="button">More</a></li>
-							</ul></article><article class="item"><header><a href="#"><img src="images/pic04.jpg" alt="" width="800" height="400"></a>
-								<h3>Blogs</h3>
-							</header><p>Our Storis and Jorney</p>
-							<ul class="actions"><li><a href="#" class="button">More</a></li>
-							</ul></article></section><!-- CTA --><section id="cta" class="main special"><h2>Join us</h2>
-						<p>Start here</p>
-						<ul class="actions"><li><a href="#" class="button big">Get Started</a></li>
-						</ul></section><!-- Main --><!--
-					<section id="main" class="main">
-						<header>
-							<h2>Lorem ipsum dolor</h2>
-						</header>
-						<p>Fusce malesuada efficitur venenatis. Pellentesque tempor leo sed massa hendrerit hendrerit. In sed feugiat est, eu congue elit. Ut porta magna vel felis sodales vulputate. Donec faucibus dapibus lacus non ornare. Etiam eget neque id metus gravida tristique ac quis erat. Aenean quis aliquet sem. Ut ut elementum sem. Suspendisse eleifend ut est non dapibus. Nulla porta, neque quis pretium sagittis, tortor lacus elementum metus, in imperdiet ante lorem vitae ipsum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Etiam eget neque id metus gravida tristique ac quis erat. Aenean quis aliquet sem. Ut ut elementum sem. Suspendisse eleifend ut est non dapibus. Nulla porta, neque quis pretium sagittis, tortor lacus elementum metus, in imperdiet ante lorem vitae ipsum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-					</section>
-				--><!-- Footer --><footer id="footer"><ul class="icons"><li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-							<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-							<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
-							<li><a href="#" class="icon fa-linkedin"><span class="label">LinkedIn</span></a></li>
-							<li><a href="#" class="icon fa-envelope"><span class="label">Email</span></a></li>
-						</ul></footer></div>
+  const bookSlot = (id) => {
+    setSlots(slots.map(slot => slot.id === id ? { ...slot, booked: !slot.booked } : slot));
+  };
 
-		<div class="copyright">
-			Powered by: <a href="https://templated.co/">TEMPLATED.CO</a>
-		</div>
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script><script src="assets/js/skel.min.js"></script><script src="assets/js/util.js"></script><script src="assets/js/main.js"></script></body></html>
+  return (
+    <div className="p-4 max-w-lg mx-auto">
+      <h1 className="text-2xl font-bold mb-4">Service Booking</h1>
+      {slots.map(slot => (
+        <Card key={slot.id} className="mb-2">
+          <CardContent className="flex justify-between items-center p-4">
+            <span>{slot.time}</span>
+            <Button onClick={() => bookSlot(slot.id)}>
+              {slot.booked ? "Cancel" : "Book"}
+            </Button>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+}
