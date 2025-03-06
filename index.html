@@ -1,31 +1,53 @@
-import { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-
-export default function BookingApp() {
-  const [slots, setSlots] = useState([
-    { id: 1, time: "9:00 AM - 10:00 AM", booked: false },
-    { id: 2, time: "10:00 AM - 11:00 AM", booked: false },
-    { id: 3, time: "11:00 AM - 12:00 PM", booked: false },
-  ]);
-
-  const bookSlot = (id) => {
-    setSlots(slots.map(slot => slot.id === id ? { ...slot, booked: !slot.booked } : slot));
-  };
-
-  return (
-    <div className="p-4 max-w-lg mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Service Booking</h1>
-      {slots.map(slot => (
-        <Card key={slot.id} className="mb-2">
-          <CardContent className="flex justify-between items-center p-4">
-            <span>{slot.time}</span>
-            <Button onClick={() => bookSlot(slot.id)}>
-              {slot.booked ? "Cancel" : "Book"}
-            </Button>
-          </CardContent>
-        </Card>
-      ))}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Booking</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .container { max-width: 400px; margin: auto; }
+        .slot { display: flex; justify-content: space-between; align-items: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0; }
+        .button { padding: 5px 10px; cursor: pointer; }
+        .booked { background-color: #f44336; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Service Booking</h1>
+        <div id="slots"></div>
     </div>
-  );
-}
+
+    <script>
+        const slots = [
+            { id: 1, time: "9:00 AM - 10:00 AM", booked: false },
+            { id: 2, time: "10:00 AM - 11:00 AM", booked: false },
+            { id: 3, time: "11:00 AM - 12:00 PM", booked: false }
+        ];
+
+        function renderSlots() {
+            const slotContainer = document.getElementById("slots");
+            slotContainer.innerHTML = "";
+            slots.forEach(slot => {
+                const div = document.createElement("div");
+                div.className = "slot";
+                div.innerHTML = `
+                    <span>${slot.time}</span>
+                    <button class="button ${slot.booked ? 'booked' : ''}" onclick="toggleBooking(${slot.id})">
+                        ${slot.booked ? 'Cancel' : 'Book'}
+                    </button>
+                `;
+                slotContainer.appendChild(div);
+            });
+        }
+
+        function toggleBooking(id) {
+            const slot = slots.find(slot => slot.id === id);
+            slot.booked = !slot.booked;
+            renderSlots();
+        }
+
+        renderSlots();
+    </script>
+</body>
+</html>
